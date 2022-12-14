@@ -1,8 +1,3 @@
-import {
-  createParamDecorator,
-  ExecutionContext,
-  SetMetadata,
-} from '@nestjs/common';
-import { User } from '../../entity/user.entity';
+import { SetMetadata } from '@nestjs/common';
 
 export const Public = () => SetMetadata('isPublic', true);

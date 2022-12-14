@@ -1,12 +1,12 @@
 import { Body, Controller, Post, UseGuards } from '@nestjs/common';
-import { SignUpDto } from '../dto/sign-up.dto';
+import { SignUpDto } from '../dto';
 import { AuthService } from '../provider/auth.service';
-import { Token } from '../type/token.type';
-import { SignInDto } from '../dto/sign-in.dto';
-import { RtGuard } from '../guard/rt.guard';
-import { GetCurrentUserId } from '../../common/decorators/get-current-user-id.decorator';
-import { GetCurrentUser } from '../../common/decorators/get-current-user.decorator';
-import { Public } from '../../common/decorators/public.decorator';
+import { Token } from '../type';
+import { SignInDto } from '../dto';
+import { RtGuard } from '../guard';
+import { GetCurrentUserId } from '../../common/decorators';
+import { GetCurrentUser } from '../../common/decorators';
+import { Public } from '../../common/decorators';
 
 @Controller('auth')
 export class AuthController {

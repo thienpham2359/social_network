@@ -56,19 +56,11 @@ export class UserService {
     return this.userRepository.save(user);
   }
 
-  public async findAll(): Promise<User[]> {
-    return this.userRepository.find();
-  }
-
   public async findOne(id: number): Promise<User | null> {
     return this.userRepository.findOneBy({ id: id });
   }
 
   public async findByEmail(email: string): Promise<User | null> {
     return this.userRepository.findOneBy({ email });
-  }
-
-  public async delete(id: string): Promise<void> {
-    await this.userRepository.delete(id);
   }
 }
