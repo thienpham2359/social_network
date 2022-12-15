@@ -1,8 +1,8 @@
-import { Body, HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from '../../../entity/user.entity';
+import { User } from '../../../entity';
 import { Repository } from 'typeorm';
-import { CreateUserDto } from '../dto/create-user.dto';
+import { UpdateUserDto } from '../dto/update-user.dto';
 
 @Injectable()
 export class UserService {
@@ -29,7 +29,7 @@ export class UserService {
     });
   }
 
-  public async updateHashedRt(userId: number, hashedRt: string) {
+  public async updateHashedRt(userId: number, hashedRt: string): Promise<void> {
     await this.userRepository
       .createQueryBuilder()
       .update()
@@ -52,8 +52,27 @@ export class UserService {
     return true;
   }
 
-  public async create(@Body() user: CreateUserDto): Promise<User> {
+  public async updateUser(userId: number, dto: UpdateUserDto): Promise<User> {
+    const user = await this.userRepository.findOne({
+      where: {
+        id: userId,
+      },
+    });
+    user.firstName = dto.firstName;
+    user.lastName = dto.lastName;
+
     return this.userRepository.save(user);
+  }
+
+  public async deleteUser(userId: number): Promise<boolean> {
+    const user = await this.userRepository.findOne({
+      where: { id: userId },
+      relations: {
+        feeds: true,
+      },
+    });
+    await this.userRepository.softRemove(user);
+    return true;
   }
 
   public async findOne(id: number): Promise<User | null> {

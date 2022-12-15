@@ -3,40 +3,25 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  OneToMany,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Feed } from './feed.entity';
+import { User } from './user.entity';
 
-@Entity('users')
-export class User {
+@Entity('feed')
+export class Feed {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ nullable: true })
-  firstName: string;
-
-  @Column({ nullable: true })
-  lastName: string;
-
-  @Column({ unique: true })
-  email: string;
-
-  @Column()
-  password: string;
+  @Column({ nullable: true, length: 280 })
+  content: string;
 
   @Column({ default: true })
   isActive: boolean;
 
-  @Column({ nullable: true })
-  hashedRt: string;
-
-  @OneToMany(() => Feed, (feed) => feed.user, {
-    onDelete: 'CASCADE',
-    cascade: true,
-  })
-  feeds: Feed[];
+  @ManyToOne(() => User, (user) => user.feeds)
+  user: User;
 
   @CreateDateColumn({
     type: 'timestamp',

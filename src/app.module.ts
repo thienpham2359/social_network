@@ -7,10 +7,12 @@ import { DatabaseModule } from './database/DatabaseModule';
 import { AuthModule } from './auth/module/auth.module';
 import { APP_GUARD } from '@nestjs/core';
 import { AtGuard } from './auth/guard';
+import { FeedModule } from './features/feed/module/feed.module';
 
 @Module({
   imports: [
     UserModule,
+    FeedModule,
     DatabaseModule,
     ConfigModule.forRoot({
       isGlobal: true,

@@ -17,7 +17,6 @@ export class AtGuard extends AuthGuard(jwtConstants.atStrategyName) {
       context.getHandler(),
       context.getClass(),
     ]);
-    console.log(context.getHandler());
     if (isPublic) return true;
     return super.canActivate(context);
   }

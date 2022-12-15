@@ -1,38 +1,44 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
-  InternalServerErrorException,
   NotFoundException,
   Param,
   ParseIntPipe,
-  Post,
+  Put,
 } from '@nestjs/common';
-import { CreateUserDto } from '../dto/create-user.dto';
 import { UserService } from '../provider/user.service';
-import { User } from '../../../entity/user.entity';
+import { User } from '../../../entity';
+import { GetCurrentUserId } from '../../../common/decorators';
+import { UpdateUserDto } from '../dto/update-user.dto';
 
-@Controller('users')
+@Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get(':id')
   public async findUser(@Param('id', ParseIntPipe) id: number): Promise<User> {
-    const result = this.userService.findOne(id);
-    if (!result) {
+    const user = await this.userService.findOne(id);
+    if (!user) {
       throw new NotFoundException('NotFoundData');
     }
 
-    return result;
+    return user;
   }
 
-  @Post()
-  public async create(@Body() body: CreateUserDto): Promise<{ id: number }> {
-    const result = await this.userService.create(body);
-    if (!result.id) {
-      throw new InternalServerErrorException('NotCreatedData');
-    }
+  @Put()
+  public async updateUser(
+    @GetCurrentUserId() userId: number,
+    @Body() dto: UpdateUserDto,
+  ): Promise<User> {
+    return this.userService.updateUser(userId, dto);
+  }
 
-    return result;
+  @Delete()
+  public async deleteUser(
+    @GetCurrentUserId() userId: number,
+  ): Promise<boolean> {
+    return this.userService.deleteUser(userId);
   }
 }
