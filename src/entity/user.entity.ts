@@ -8,6 +8,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { Feed } from './feed.entity';
+import { Favorite } from './favorite.entity';
 
 @Entity('users')
 export class User {

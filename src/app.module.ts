@@ -8,11 +8,13 @@ import { AuthModule } from './auth/module/auth.module';
 import { APP_GUARD } from '@nestjs/core';
 import { AtGuard } from './auth/guard';
 import { FeedModule } from './features/feed/module/feed.module';
+import { FavoriteModule } from './features/favorite/module/favorite.module';
 
 @Module({
   imports: [
     UserModule,
     FeedModule,
+    FavoriteModule,
     DatabaseModule,
     ConfigModule.forRoot({
       isGlobal: true,

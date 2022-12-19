@@ -1,30 +1,24 @@
 import {
-  Column,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  ManyToMany,
   ManyToOne,
-  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { Feed } from './feed.entity';
 import { User } from './user.entity';
-import { Favorite } from './favorite.entity';
 
-@Entity('feed')
-export class Feed {
+@Entity('favorite')
+export class Favorite {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ nullable: true, length: 280 })
-  content: string;
-
-  @Column({ default: true })
-  isActive: boolean;
-
-  @ManyToOne(() => User, (user) => user.feeds)
+  @ManyToOne(() => User)
   user: User;
+
+  @ManyToOne(() => Feed)
+  feed: Favorite;
 
   @CreateDateColumn({
     type: 'timestamp',
